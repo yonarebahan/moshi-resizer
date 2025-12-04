@@ -111,7 +111,7 @@
 
   <button id="downloadBtn">📥 Download Cropped Image</button>
 
-  <footer>© 2025 Moshi Tool by yona Airdrop Rebahan</footer>
+  <footer>© 2025 Moshi Tools</footer>
 </div>
 
 <script>
@@ -130,49 +130,21 @@ document.getElementById("fileInput").addEventListener("change", (event) => {
 
   cropper = new Cropper(img, {
     aspectRatio: 1,
-    viewMode: 2,               // strict: prevents overflow
+    viewMode: 1,
     dragMode: "move",
-    autoCropArea: 0.65,        // ⭐ smaller crop area
+    autoCropArea: 1,
     background: false,
     responsive: true,
     zoomable: true,
     movable: true,
-    cropBoxMovable: true,
-    cropBoxResizable: false,
-
-    ready() {
-      // 💡 Center image perfectly
-      const containerData = cropper.getContainerData();
-      const cropBoxData = cropper.getCropBoxData();
-      const imageData = cropper.getImageData();
-
-      // center crop box
-      cropper.setCropBoxData({
-        left: (containerData.width - cropBoxData.width) / 2,
-        top: (containerData.height - cropBoxData.height) / 2,
-      });
-
-      // ensure min zoom so image fully fits crop box
-      const minZoom = Math.max(
-        cropBoxData.width / imageData.naturalWidth,
-        cropBoxData.height / imageData.naturalHeight
-      );
-
-      cropper.zoomTo(minZoom + 0.1);
-
-      // recenter after zoom
-      cropper.setCropBoxData({
-        left: (containerData.width - cropBoxData.width) / 2,
-        top: (containerData.height - cropBoxData.height) / 2,
-      });
-    }
+    cropBoxResizable: false
   });
 });
 
 document.getElementById("downloadBtn").addEventListener("click", () => {
   const canvas = cropper.getCroppedCanvas({
     width: 240,
-    height: 240,
+    height: 240
   });
 
   const link = document.createElement("a");
