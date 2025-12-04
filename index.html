@@ -157,16 +157,19 @@ document.getElementById("fileInput").addEventListener("change", (event) => {
 
   cropper = new Cropper(img, {
     aspectRatio: 1,
+    initialAspectRatio: 1,
     viewMode: 1,
     dragMode: "move",
     background: false,
-    autoCropArea: 1,
+    autoCropArea: 0.8, // ⭐ penting supaya zoom aktif
+    responsive: true,
     movable: true,
     zoomable: true,
     zoomOnWheel: true,
-    wheelZoomRatio: 0.13,
-    cropBoxResizable: false,
-    responsive: true
+    wheelZoomRatio: 0.15,
+    cropBoxResizable: false, 
+    minCanvasWidth: 100,
+    minCanvasHeight: 100,
   });
 });
 
