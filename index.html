@@ -108,19 +108,23 @@ document.getElementById("fileInput").addEventListener("change", (event) => {
   if (cropper) cropper.destroy();
 
   cropper = new Cropper(img, {
-    aspectRatio: 1,            // Fixed 1:1 square
-    viewMode: 0,               // 🔧 allow free move/zoom
+    aspectRatio: 1,            // fixed 1:1
+    viewMode: 3,               // ⭐ allow moving image outside crop area
     dragMode: "move",
     background: false,
     autoCropArea: 1,
     responsive: true,
-    movable: true,
+    center: false,
+    guides: true,
     zoomable: true,
     zoomOnWheel: true,
+    wheelZoomRatio: 0.1,       // smoother zoom
+    movable: true,
     cropBoxResizable: false,   // fixed crop size
-    center: false,             // allow free position
     minCropBoxWidth: 240,
-    minCropBoxHeight: 240
+    minCropBoxHeight: 240,
+    minCanvasWidth: 50,
+    minCanvasHeight: 50,
   });
 });
 
