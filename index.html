@@ -108,15 +108,19 @@ document.getElementById("fileInput").addEventListener("change", (event) => {
   if (cropper) cropper.destroy();
 
   cropper = new Cropper(img, {
-    aspectRatio: 1,          // <-- locked square
-    viewMode: 1,
+    aspectRatio: 1,            // Fixed 1:1 square
+    viewMode: 0,               // 🔧 allow free move/zoom
     dragMode: "move",
     background: false,
     autoCropArea: 1,
     responsive: true,
-    zoomable: true,
     movable: true,
-    cropBoxResizable: false  // <-- You cannot resize the square
+    zoomable: true,
+    zoomOnWheel: true,
+    cropBoxResizable: false,   // fixed crop size
+    center: false,             // allow free position
+    minCropBoxWidth: 240,
+    minCropBoxHeight: 240
   });
 });
 
