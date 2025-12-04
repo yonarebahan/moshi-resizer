@@ -1,93 +1,146 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Simple Image Resizer (240x240)</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moshi Image Resizer</title>
 
-  <style>
-    body {
-      font-family: system-ui, sans-serif;
-      text-align: center;
-      padding: 30px;
-      background: #f5f5f7;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+    background: #f5f5f7;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px;
+  }
 
-    #preview {
-      width: 240px;
-      height: 240px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-top: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      display: none;
-    }
+  .card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+    text-align: center;
+  }
 
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      border-radius: 8px;
-      background: #007AFF;
-      color: white;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-    }
+  h2 {
+    margin-bottom: 6px;
+    font-size: 22px;
+    font-weight: 600;
+  }
 
-    button:hover {
-      background: #005FCC;
-    }
+  p {
+    margin-top: 0;
+    font-size: 14px;
+    color: #666;
+  }
 
-    input {
-      margin-top: 20px;
-    }
-  </style>
+  #preview {
+    width: 240px;
+    height: 240px;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+    display: none;
+  }
+
+  .upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 16px;
+    padding: 30px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: .2s;
+  }
+
+  .upload-area:hover {
+    border-color: #007aff;
+    background: #f0f8ff;
+  }
+
+  button {
+    background: #007aff;
+    color: white;
+    border: none;
+    padding: 14px 18px;
+    border-radius: 14px;
+    margin-top: 25px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+    display: none;
+  }
+
+  button:hover {
+    background: #005ddc;
+  }
+
+  footer {
+    margin-top: 25px;
+    font-size: 12px;
+    color: #aaa;
+  }
+
+</style>
 </head>
 
 <body>
 
-  <h2>📏 Image Auto-Resize (240×240)</h2>
-  <p>Upload foto → otomatis resize → download</p>
+<div class="card">
+  <h2>📐 Resize to 240×240</h2>
+  <p>Upload → Auto resize → Download</p>
 
-  <input type="file" id="fileInput" accept="image/*">
-  <img id="preview" />
+  <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+    Tap to upload image
+  </div>
 
-  <br>
-  <button id="downloadBtn" style="display:none;">⬇ Download 240×240</button>
+  <input type="file" id="fileInput" accept="image/*" style="display:none;">
 
-  <canvas id="canvas" width="240" height="240" style="display:none;"></canvas>
+  <img id="preview">
+
+  <button id="downloadBtn">Download 240×240</button>
+
+  <footer>© 2025 Moshi Tools</footer>
+</div>
+
+<canvas id="canvas" width="240" height="240" style="display:none;"></canvas>
 
 <script>
-  const fileInput = document.getElementById("fileInput");
-  const preview = document.getElementById("preview");
-  const downloadBtn = document.getElementById("downloadBtn");
-  const canvas = document.getElementById("canvas");
-  const ctx = canvas.getContext("2d");
+const fileInput = document.getElementById("fileInput");
+const preview = document.getElementById("preview");
+const downloadBtn = document.getElementById("downloadBtn");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
-  fileInput.addEventListener("change", async () => {
-    const file = fileInput.files[0];
-    if (!file) return;
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (!file) return;
 
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
+  const img = new Image();
+  img.src = URL.createObjectURL(file);
 
-    img.onload = () => {
-      ctx.clearRect(0,0,240,240);
-      ctx.drawImage(img, 0, 0, 240, 240);
+  img.onload = () => {
+    ctx.clearRect(0,0,240,240);
+    ctx.drawImage(img, 0, 0, 240, 240);
 
-      preview.src = canvas.toDataURL();
-      preview.style.display = "block";
-      downloadBtn.style.display = "inline-block";
-    };
-  });
-
-  downloadBtn.onclick = () => {
-    const link = document.createElement("a");
-    link.download = "moshi_240x240.jpg";
-    link.href = canvas.toDataURL("image/jpeg", 0.9);
-    link.click();
+    preview.src = canvas.toDataURL();
+    preview.style.display = "block";
+    downloadBtn.style.display = "block";
   };
-</script>
+});
 
+downloadBtn.onclick = () => {
+  const link = document.createElement("a");
+  link.download = "moshi_240x240.jpg";
+  link.href = canvas.toDataURL("image/jpeg", 0.92);
+  link.click();
+};
+</script>
 </body>
 </html>
-
