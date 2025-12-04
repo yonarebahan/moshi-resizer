@@ -130,24 +130,49 @@ document.getElementById("fileInput").addEventListener("change", (event) => {
 
   cropper = new Cropper(img, {
     aspectRatio: 1,
+    viewMode: 2,               // strict: prevents overflow
     dragMode: "move",
-    viewMode: 2,          // strict mode: image won't go outside crop-box
-    autoCropArea: 0.85,   // slightly smaller so user sees boundary
+    autoCropArea: 0.65,        // ⭐ smaller crop area
     background: false,
     responsive: true,
     zoomable: true,
     movable: true,
-    cropBoxResizable: false,
     cropBoxMovable: true,
-    minCropBoxWidth: 50,
-    minCropBoxHeight: 50,
+    cropBoxResizable: false,
+
+    ready() {
+      // 💡 Center image perfectly
+      const containerData = cropper.getContainerData();
+      const cropBoxData = cropper.getCropBoxData();
+      const imageData = cropper.getImageData();
+
+      // center crop box
+      cropper.setCropBoxData({
+        left: (containerData.width - cropBoxData.width) / 2,
+        top: (containerData.height - cropBoxData.height) / 2,
+      });
+
+      // ensure min zoom so image fully fits crop box
+      const minZoom = Math.max(
+        cropBoxData.width / imageData.naturalWidth,
+        cropBoxData.height / imageData.naturalHeight
+      );
+
+      cropper.zoomTo(minZoom + 0.1);
+
+      // recenter after zoom
+      cropper.setCropBoxData({
+        left: (containerData.width - cropBoxData.width) / 2,
+        top: (containerData.height - cropBoxData.height) / 2,
+      });
+    }
   });
 });
 
 document.getElementById("downloadBtn").addEventListener("click", () => {
   const canvas = cropper.getCroppedCanvas({
     width: 240,
-    height: 240
+    height: 240,
   });
 
   const link = document.createElement("a");
