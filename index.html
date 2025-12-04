@@ -3,114 +3,67 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Moshi Image Crop 240x240</title>
+<title>Moshi Crop 240×240</title>
 
 <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css" />
 <script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
 
 <style>
-  :root {
-    --bg: #f5f5f7;
-    --card: #ffffff;
-    --text: #111;
-    --button: #007aff;
-    --button-text: white;
-    --border: #ccc;
-  }
-
-  body.dark {
-    --bg: #111;
-    --card: #1a1a1a;
-    --text: white;
-    --border: #444;
-  }
-
   body {
+    background: #f4f6f9;
     margin: 0;
-    background: var(--bg);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui;
+    padding: 40px;
     display: flex;
     justify-content: center;
-    padding: 40px 0;
-    transition: .25s;
+    font-family: -apple-system,BlinkMacSystemFont,'SF Pro',system-ui;
   }
 
   .card {
     width: 95%;
     max-width: 420px;
-    background: var(--card);
-    padding: 28px;
+    background: white;
     border-radius: 22px;
+    padding: 25px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  }
-
-  h2 {
-    font-weight: 600;
-    margin: 0;
-    color: var(--text);
-  }
-
-  p {
-    margin-top: 6px;
-    color: #777;
-    font-size: 14px;
-  }
-
-  .upload-box {
-    border: 2px dashed var(--border);
-    padding: 18px;
-    border-radius: 16px;
-    cursor: pointer;
-    margin-top: 14px;
-    transition: .25s;
-  }
-
-  .upload-box:hover {
-    border-color: var(--button);
-    background: rgba(0,122,255,0.07);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
   }
 
   #image {
     width: 100%;
-    display: none;
     border-radius: 12px;
-    margin-top: 14px;
-    touch-action: none;
+    margin-top: 16px;
+    display: none;
   }
 
   button {
     width: 100%;
+    margin-top: 16px;
     padding: 14px;
-    background: var(--button);
+    background: #007aff;
     border: none;
     border-radius: 14px;
-    color: var(--button-text);
-    font-size: 16px;
-    margin-top: 18px;
-    cursor: pointer;
+    color: white;
     font-weight: 600;
     display: none;
-  }
-
-  .toggle {
-    font-size: 13px;
-    opacity: .6;
     cursor: pointer;
   }
 
-  footer {
-    opacity: .5;
-    font-size: 12px;
-    margin-top: 18px;
+  .upload-box {
+    border: 2px dashed #bbb;
+    padding: 20px;
+    border-radius: 14px;
+    cursor: pointer;
+    margin-top: 12px;
+    color: #666;
   }
+
+  footer { margin-top: 20px; opacity: .5; font-size: 13px; }
 </style>
 </head>
 
 <body>
-<div class="card">
 
-  <div class="toggle" onclick="document.body.classList.toggle('dark')">🌓 Toggle Dark Mode</div>
+<div class="card">
 
   <h2>Moshi Crop Tool</h2>
   <p>Upload → Crop → Download (240×240)</p>
@@ -122,14 +75,15 @@
 
   <button id="downloadBtn">📥 Download Cropped Image</button>
 
-  <footer>© 2025 Moshi Tools</footer>
+  <footer>© 2025 Moshi Tool by yona Airdrop Rebahan</footer>
+
 </div>
 
 <script>
 let cropper;
 
-document.getElementById("fileInput").addEventListener("change", (event) => {
-  const file = event.target.files[0];
+document.getElementById("fileInput").addEventListener("change", (e) => {
+  const file = e.target.files[0];
   if (!file) return;
 
   const img = document.getElementById("image");
@@ -139,27 +93,23 @@ document.getElementById("fileInput").addEventListener("change", (event) => {
 
   if (cropper) cropper.destroy();
 
-  // ⭐ THE CONFIG THAT WORKED EARLIER
+  // ⭐ THIS IS THE CORRECT BEHAVIOR CONFIG
   cropper = new Cropper(img, {
     aspectRatio: 1,
-    viewMode: 0,
+    viewMode: 1,
     dragMode: "move",
-    autoCropArea: 0.8,
+    autoCropArea: 0.5, 
     movable: true,
     zoomable: true,
     zoomOnWheel: true,
-    cropBoxResizable: false,
     cropBoxMovable: true,
+    cropBoxResizable: false,
     background: false,
-    responsive: true,
   });
 });
 
 document.getElementById("downloadBtn").addEventListener("click", () => {
-  const canvas = cropper.getCroppedCanvas({
-    width: 240,
-    height: 240
-  });
+  const canvas = cropper.getCroppedCanvas({ width: 240, height: 240 });
 
   const link = document.createElement("a");
   link.download = "moshi_240x240.jpg";
