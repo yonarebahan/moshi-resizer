@@ -21,10 +21,8 @@
   body.dark {
     --bg: #111;
     --card: #1a1a1a;
-    --text: #fff;
-    --button: #0a84ff;
-    --button-text: #fff;
-    --border: #555;
+    --text: white;
+    --border: #444;
   }
 
   body {
@@ -45,37 +43,40 @@
     border-radius: 22px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-    transition: .25s;
   }
 
   h2 {
-    margin: 0;
-    font-size: 22px;
     font-weight: 600;
+    margin: 0;
     color: var(--text);
   }
 
-  p { color: #777; font-size: 14px; margin-bottom: 18px; }
+  p {
+    margin-top: 6px;
+    color: #777;
+    font-size: 14px;
+  }
 
   .upload-box {
     border: 2px dashed var(--border);
     padding: 18px;
     border-radius: 16px;
     cursor: pointer;
-    transition: .2s;
+    margin-top: 14px;
+    transition: .25s;
   }
 
   .upload-box:hover {
     border-color: var(--button);
-    background: rgba(0,122,255,0.05);
+    background: rgba(0,122,255,0.07);
   }
 
   #image {
     width: 100%;
-    height: auto !important;
     display: none;
-    margin-top: 12px;
     border-radius: 12px;
+    margin-top: 14px;
+    touch-action: none;
   }
 
   button {
@@ -92,29 +93,27 @@
     display: none;
   }
 
-  button:hover {
-    background: #005ddc;
-  }
-
   .toggle {
     font-size: 13px;
-    opacity: 0.7;
+    opacity: .6;
     cursor: pointer;
-    margin-bottom: 10px;
   }
 
-  footer { opacity: .5; margin-top: 18px; font-size: 12px; }
+  footer {
+    opacity: .5;
+    font-size: 12px;
+    margin-top: 18px;
+  }
 </style>
 </head>
 
 <body>
-
 <div class="card">
 
-  <div class="toggle" onclick="toggleTheme()">🌓 Toggle Dark Mode</div>
+  <div class="toggle" onclick="document.body.classList.toggle('dark')">🌓 Toggle Dark Mode</div>
 
   <h2>Moshi Crop Tool</h2>
-  <p>Upload → Adjust → Download (240×240)</p>
+  <p>Upload → Crop → Download (240×240)</p>
 
   <div class="upload-box" onclick="document.getElementById('fileInput').click()">Tap to Upload Photo</div>
   <input type="file" id="fileInput" accept="image/*" style="display:none">
@@ -136,22 +135,22 @@ document.getElementById("fileInput").addEventListener("change", (event) => {
   const img = document.getElementById("image");
   img.src = URL.createObjectURL(file);
   img.style.display = "block";
-
   document.getElementById("downloadBtn").style.display = "block";
 
   if (cropper) cropper.destroy();
 
-  // ⭐ FINAL WORKING SETTINGS
+  // ⭐ THE CONFIG THAT WORKED EARLIER
   cropper = new Cropper(img, {
     aspectRatio: 1,
-    viewMode: 1,
+    viewMode: 0,
     dragMode: "move",
-    autoCropArea: 1,
-    zoomable: true,
+    autoCropArea: 0.8,
     movable: true,
+    zoomable: true,
     zoomOnWheel: true,
-    background: false,
     cropBoxResizable: false,
+    cropBoxMovable: true,
+    background: false,
     responsive: true,
   });
 });
@@ -167,10 +166,6 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
   link.href = canvas.toDataURL("image/jpeg", 0.95);
   link.click();
 });
-
-function toggleTheme(){
-  document.body.classList.toggle("dark");
-}
 </script>
 
 </body>
