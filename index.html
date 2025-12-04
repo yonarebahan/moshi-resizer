@@ -130,14 +130,17 @@ document.getElementById("fileInput").addEventListener("change", (event) => {
 
   cropper = new Cropper(img, {
     aspectRatio: 1,
-    viewMode: 1,
     dragMode: "move",
-    autoCropArea: 1,
+    viewMode: 2,          // strict mode: image won't go outside crop-box
+    autoCropArea: 0.85,   // slightly smaller so user sees boundary
     background: false,
     responsive: true,
     zoomable: true,
     movable: true,
-    cropBoxResizable: false
+    cropBoxResizable: false,
+    cropBoxMovable: true,
+    minCropBoxWidth: 50,
+    minCropBoxHeight: 50,
   });
 });
 
