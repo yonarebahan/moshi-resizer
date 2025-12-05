@@ -62,13 +62,22 @@
     background: rgba(0,122,255,0.08);
   }
 
+  /* 🔥 New wrapper for centering + scale */
+  .image-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+
   #image {
     width: 100%;
     display: none;
     border-radius: 14px;
-    margin-top: 12px;
     max-height: 360px;
-    object-fit: contain;
+    transform: scale(0.7); /* 70% viewer */
+    transform-origin: center;
   }
 
   button {
@@ -107,7 +116,10 @@
   <div class="upload-box" onclick="document.getElementById('fileInput').click()">Tap to Upload Photo</div>
   <input type="file" id="fileInput" accept="image/*" style="display:none">
 
-  <img id="image">
+  <!-- New wrapper -->
+  <div class="image-wrapper">
+    <img id="image">
+  </div>
 
   <button id="downloadBtn">📥 Download Cropped Image</button>
 
@@ -130,10 +142,11 @@ document.getElementById("fileInput").addEventListener("change", (event) => {
 
   cropper = new Cropper(img, {
     aspectRatio: 1,
-    viewMode: 1,
+    viewMode: 2, // improved centering + boundaries
     dragMode: "move",
     autoCropArea: 1,
     background: false,
+    center: true,
     responsive: true,
     zoomable: true,
     movable: true,
